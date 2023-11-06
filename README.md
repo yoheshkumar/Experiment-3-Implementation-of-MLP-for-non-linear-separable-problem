@@ -39,10 +39,95 @@ Step 3: Repeat the  iteration  until the losses become constant and
              (v)   Append the losses in a list
 Step 4 : Test for the XOR patterns.
 
-** PROGRAM** 
-/Type your Program here/
+## PROGRAM
+```
+Developed by : YOHESH KUMAR R.M
+Reg no : 212222240118
+```
+```py
+import numpy as np
+import pandas as pd
+import io
+import matplotlib.pyplot as plt
+```
+```py
+x=np.array([[0,0,1,1],[0,1,0,1]])
+y=np.array([[0,1,1,0]])
+n_x = 2
+n_y = 1
+n_h = 2
+m = x.shape[1]
+lr = 0.1
+np.random.seed(2)
+w1 = np.random.rand(n_h,n_x)
+w2 = np.random.rand(n_y,n_h)
+losses = []
+```
+```py
+def sigmoid(z):
+  z = 1/(1+np.exp(-z))
+  return z
+```
+```py
+def forward_prop(w1,w2,x):
+  z1 = np.dot(w1,x)
+  a1 = sigmoid(z1)
+  z2 = np.dot(w2,a1)
+  a2 = sigmoid(z2)
+  return z1,a1,z2,a2
+```
+```py
+def back_prop(m,w1,w2,z1,a1,z2,a2,y):
+  dz2 = a2-y
+  dw2 = np.dot(dz2,a1.T)/m
+  dz1 = np.dot(w2.T,dz2) * a1*(1-a1)
+  dw1 = np.dot(dz1,x.T)/m
+  dw1 = np.reshape(dw1,w1.shape)
+  dw2 = np.reshape(dw2,w2.shape)
+  return dz2,dw2,dz1,dw1
+```
+```py
+iterations = 1000
+for i in range(iterations):
+  z1,a1,z2,a2 = forward_prop(w1,w2,x)
+  loss = -(1/m)*np.sum(y*np.log(a2)+(1-y)*np.log(1-a2))
+  losses.append(loss)
+  da2,dw2,dz1,dw1 = back_prop(m,w1,w2,z1,a1,z2,a2,y)
+  w2 = w2-lr*dw2
+  w1 = w1-lr*dw1
+```
+```py
+plt.plot(losses)
+plt.xlabel("EPOCHS")
+plt.ylabel("LOSS VALUE")
+```
+```py
+def predict(w1,w2,input):
+  z1,a1,z2,a2 = forward_prop(w1,w2,test)
+  a2 = np.squeeze(a2)
+  if (a2>=0.5):
+        print( [i[0] for i in input], 1)
+  else:
+        print( [i[0] for i in input], 0)
+```
+```py
+print('Input',' Output')
+test=np.array([[0],[0]])
+predict(w1,w2,test)
+test=np.array([[0],[1]])
+predict(w1,w2,test)
+test=np.array([[1],[0]])
+predict(w1,w2,test)
+test=np.array([[1],[1]])
+predict(w1,w2,test)
+```
 
 
- **OUTPUT** 
+## OUTPUT :
+![download](https://github.com/aldrinlijo04/Experiment-3-Implementation-of-MLP-for-non-linear-separable-problem/assets/118544279/ede164b4-e662-4987-8a2c-6786ad6b8e07)
 
-** RESULT**
+![image](https://github.com/aldrinlijo04/Experiment-3-Implementation-of-MLP-for-non-linear-separable-problem/assets/118544279/2d191bd6-d6bb-4f60-861b-cba991364686)
+
+
+## RESULT
+Thus, a program involving python to implement a perceptron for Implementation of MLP for non linearly separable problem is developed and executted successfully.
